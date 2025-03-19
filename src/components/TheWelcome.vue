@@ -16,7 +16,7 @@ onMounted(() => {
 <template>
   <div class="team">
     <h1>Mostrar 25 pokemones</h1>
-
+    <!--Este es un mensaje nuevo de prueba para publicar-->
     <main>
       <div class="pokemon-list">
         <div v-for="pokemon in pokemonStore.pokemons" :key="pokemon.name" class="pokemon-card">
