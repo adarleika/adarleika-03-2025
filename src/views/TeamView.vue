@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { usePokemonStore } from '../stores/pokemon'
+
+const pokemonStore = usePokemonStore()
+
+console.log(pokemonStore)
+
+onMounted(() => {
+  pokemonStore.fetchPokemons()
+  console.log(pokemonStore)
+})
+</script>
+
 <template>
   <h1>Aqui se mustran el detalle de los pokemones de mi equipo</h1>
 

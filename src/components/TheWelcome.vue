@@ -3,7 +3,6 @@ import { onMounted } from 'vue'
 import { usePokemonStore } from '../stores/pokemon'
 
 const pokemonStore = usePokemonStore()
-//const id = pokemonStore.url.split('/').at(-2)
 
 console.log(pokemonStore)
 
@@ -16,11 +15,10 @@ onMounted(() => {
 <template>
   <div class="team">
     <h1>Mostrar 25 pokemones</h1>
-    <!--Este es un mensaje nuevo de prueba para publicar-->
     <main>
       <div class="pokemon-list">
         <div v-for="pokemon in pokemonStore.pokemons" :key="pokemon.name" class="pokemon-card">
-          <p>Pokemon: {{ pokemon.name }}</p>
+          <p class="titlePokemon">{{ pokemon.name }}</p>
           <img
             :src="
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' +
@@ -29,7 +27,16 @@ onMounted(() => {
             "
             alt=""
           />
+          <div>
+            <button class="addPokemon">Elige tu Pokemon</button>
+          </div>
         </div>
+        <div>
+          <button @click="prevPage" :disabled="currentPage">Anterior</button>
+          <span>Página {{ currentPage }}</span>
+          <button @click="nextPage" :disabled="currentPage">Siguiente</button>
+        </div>
+        <router-link class="verEquipo" to="/team">Ver Equipo</router-link>
       </div>
     </main>
   </div>
