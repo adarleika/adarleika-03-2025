@@ -10,6 +10,11 @@ onMounted(() => {
   pokemonStore.fetchPokemons()
   console.log(pokemonStore)
 })
+
+const getPokemonId = (url: string) => {
+  const parts = url.split('/')
+  return parts[parts.length - 2]
+}
 </script>
 
 <template>
@@ -22,19 +27,21 @@ onMounted(() => {
           <img
             :src="
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' +
-              pokemon.url.split('/').at(-2) +
+              getPokemonId(pokemon.url) +
               '.png'
             "
             alt=""
           />
           <div>
-            <button class="addPokemon">Elige tu Pokemon</button>
+            <button :value="pokemon.name" class="addPokemon">Elige tu Pokemon</button>
           </div>
         </div>
         <div>
-          <button @click="prevPage" :disabled="currentPage">Anterior</button>
-          <span>Página {{ currentPage }}</span>
-          <button @click="nextPage" :disabled="currentPage">Siguiente</button>
+          <button @click="pokemonStore.prevPage">Anterior</button>
+          <span>Página {{ pokemonStore.currentPage }}</span>
+          <button @click="pokemonStore.nextPage" :disabled="pokemonStore.nextPageDisabled">
+            Siguiente
+          </button>
         </div>
         <router-link class="verEquipo" to="/team">Ver Equipo</router-link>
       </div>
