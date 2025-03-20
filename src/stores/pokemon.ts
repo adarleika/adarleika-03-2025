@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import axios from 'axios'
 
 interface Pokemon {
   name: string
@@ -23,17 +24,16 @@ export const usePokemonStore = defineStore('pokemon', () => {
     try {
       const offset = (page - 1) * cantidadPokemon.value
 
-      const response = await fetch(
+      const response = await axios.get(
         //`https://pokeapi.co/api/v2/pokemon?limit=${cantidadPokemon.value}&offset=0`,
         `https://pokeapi.co/api/v2/pokemon?limit=${cantidadPokemon.value}&offset=${offset}`,
       )
-      const data = await response.json()
-      pokemons.value = data.results
+      pokemons.value = response.data.results
       currentPage.value = page
       console.log(currentPage)
-      nextPageDisabled.value = data.next === null
+      nextPageDisabled.value = response.data.next === null
       console.log(nextPageDisabled)
-      console.log(data.next) //next no es null
+      console.log(response.data.next) //next no es null
       console.log(offset, 'verifica el cambio de pagina') //devuelve 0
     } catch (err) {
       error.value = 'Error al cargar los pokemones'
@@ -55,6 +55,12 @@ export const usePokemonStore = defineStore('pokemon', () => {
     }
   }
 
+  // metodo para obtener la url de la imagen del pokemon
+  const getPokemonId = (url: string) => {
+    const parts = url.split('/')
+    return parts[parts.length - 2]
+  }
+
   //Retorna las funciones que se usan en el template
   return {
     pokemons,
@@ -65,6 +71,7 @@ export const usePokemonStore = defineStore('pokemon', () => {
     nextPage,
     prevPage,
     nextPageDisabled,
+    getPokemonId,
     fetchPokemons,
   }
 })

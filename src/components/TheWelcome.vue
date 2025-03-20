@@ -10,11 +10,6 @@ onMounted(() => {
   pokemonStore.fetchPokemons()
   console.log(pokemonStore)
 })
-
-const getPokemonId = (url: string) => {
-  const parts = url.split('/')
-  return parts[parts.length - 2]
-}
 </script>
 
 <template>
@@ -27,7 +22,7 @@ const getPokemonId = (url: string) => {
           <img
             :src="
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' +
-              getPokemonId(pokemon.url) +
+              pokemonStore.getPokemonId(pokemon.url) +
               '.png'
             "
             alt=""
